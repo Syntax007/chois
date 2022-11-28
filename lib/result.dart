@@ -7,8 +7,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class Result extends ConsumerStatefulWidget {
   final int resultScore;
   final List totalScore;
+  final void Function()? resetQuiz;
 
-  const Result(this.resultScore, {Key? key, required this.totalScore})
+  const Result(this.resultScore, this.resetQuiz,
+      {Key? key, required this.totalScore})
       : super(key: key);
 
   @override
@@ -16,26 +18,6 @@ class Result extends ConsumerStatefulWidget {
 }
 
 class ResultState extends ConsumerState<Result> {
-//Remark Logic
-  String get resultPhrase {
-    String resultText;
-    if (widget.resultScore >= 41) {
-      resultText = 'You are awesome!';
-      print(widget.resultScore);
-    } else if (widget.resultScore >= 31) {
-      resultText = 'Pretty likeable!';
-      print(widget.resultScore);
-    } else if (widget.resultScore >= 21) {
-      resultText = 'You need to work more!';
-    } else if (widget.resultScore >= 1) {
-      resultText = 'You need to work hard!';
-    } else {
-      resultText = 'This is a poor score!';
-      print(widget.resultScore);
-    }
-    return resultText;
-  }
-
   void getDecision() {
     int lta = 0;
     int ltc = 0;
@@ -82,6 +64,8 @@ class ResultState extends ConsumerState<Result> {
             child: TextButton(
               onPressed: () {
                 getDecision();
+                widget.resetQuiz!();
+
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const ViewChart()));
               },

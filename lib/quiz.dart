@@ -17,22 +17,34 @@ class Quiz extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Spacer(),
-        Question(
-          questions[questionIndex]['questionText'].toString(),
-        ), //Question
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          LinearProgressIndicator(
+            value: questionIndex / questions.length,
+            minHeight: 10,
+            backgroundColor: Colors.grey,
+            valueColor: const AlwaysStoppedAnimation<Color>(Color(0XFF7B61FF)),
+          ),
 
-        const Spacer(),
-        ...(questions[questionIndex]['answers'] as List<Map<String, Object>>)
-            .map((answer) {
-          return Answer(
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.1,
+          ),
+          Question(
+            questions[questionIndex]['questionText'].toString(),
+          ), //Question
 
-                  () => answerQuestion(answer['score']), answer['text'].toString());
-        }).toList(),
-        const Spacer(),
-      ],
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.1,
+          ),
+          ...(questions[questionIndex]['answers'] as List<Map<String, Object>>)
+              .map((answer) {
+            return Answer(
+
+                    () => answerQuestion(answer['score']), answer['text'].toString());
+          }).toList(),
+        ],
+      ),
     ); //Column
   }
 }

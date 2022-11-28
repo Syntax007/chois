@@ -1,3 +1,4 @@
+import 'package:choiss/home_view.dart';
 import 'package:choiss/model/result_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -33,7 +34,7 @@ class ViewChartState extends ConsumerState<ViewChart> {
                 flex: 2,
               ),
               SizedBox(
-                height: 150,
+                height: 220,
                 child: Consumer(
                   builder:
                       (BuildContext context, WidgetRef ref, Widget? child) {
@@ -77,12 +78,47 @@ class ViewChartState extends ConsumerState<ViewChart> {
                 ),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'From the result, you have greater chances in the Arts class',
-                textAlign: TextAlign.center,
+              Consumer(
+                builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  highestNum(int a, int b, int c) {
+                    if ((a >= b) & (a >= c)) {
+                      return "Arts";
+                    } else if ((b >= c) & (b >= a)) {
+                      return "Commercial";
+                    } else {
+                      return "Science";
+                    }
+                  }
+
+                  return Text(
+                    'From the result, you have greater chances in the'
+                    ' ${highestNum(
+                      ref.watch(ltaProvider),
+                      ref.watch(ltcProvider),
+                      ref.watch(ltsProvider),
+                    )} class',
+                    textAlign: TextAlign.center,
+                  );
+                },
               ),
               const Spacer(
-                flex: 2,
+                flex: 1,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => const HomeView()),
+                      (Route<dynamic> route) => false);
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    const Color(0XFF7B61FF),
+                  ),
+                ),
+                child: const Text('Return to Home'),
+              ),
+              const Spacer(
+                flex: 1,
               ),
               const Text(
                   "Would you like to know more? Get in touch with a career expert.",

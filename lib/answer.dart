@@ -26,7 +26,7 @@ class Answer extends StatelessWidget {
             MaterialStateProperty.all<Color>(const Color(0XCCEDEDED)),
           ),
           child: Text(answerText,
-          style: TextStyle(color: Colors.black),),
+          style: const TextStyle(color: Colors.black),),
         ),
 
       ),
